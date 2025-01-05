@@ -12,17 +12,26 @@
         <button type="submit">Check</button>
     </form>
     <div id="result"></div>
+
+    <!-- Updated Script -->
     <script>
         document.getElementById("keyForm").addEventListener("submit", async (e) => {
             e.preventDefault();
             const key = document.getElementById("keyInput").value;
-            const response = await fetch('https://d7fbef4c.key-checker-c8v.pages.dev/check-key', { // Replace <your-worker-url> with your Worker URL
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ key })
-            });
-            const data = await response.json();
-            document.getElementById("result").innerText = data.message;
+            
+            try {
+                const response = await fetch('https://d7fbef4c.key-checker-c8v.pages.dev/check-key', { // Replace <your-subdomain>
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ key })
+                });
+
+                const data = await response.json();
+                document.getElementById("result").innerText = data.message;
+            } catch (error) {
+                document.getElementById("result").innerText = "Error connecting to server!";
+                console.error(error);
+            }
         });
     </script>
 </body>
